@@ -14,16 +14,30 @@ const App = () => {
     </div>
   )
 }
+ const Part = (props) => {
+  return (
+    <div>
+      <p>{props.part} {props.exercises}</p>
+    </div>
+  )
+}
 
-
-
-
+/* Part 1.1
   const Content = (props) => {
   return (
     <div>
       <p>{props.part1} {props.excercise1}</p>
       <p>{props.part2} {props.excercise2}</p>
       <p>{props.part3} {props.excercise3}</p>
+    </div>
+  )
+*/
+const Content = (props) => {
+  return (
+    <div>
+    <Part part={props.part1} exercises={props.excercise1}/>
+    <Part part={props.part2} exercises={props.excercise2}/>
+    <Part part={props.part3} exercises={props.excercise3}/>
     </div>
   )
 }
@@ -35,12 +49,12 @@ const App = () => {
   )
 }
   return (
-    <div>
-      <Header course={course}/>
-   
-    <Content part1={part1} excercise1={exercises1} part2={part2} excercise2={exercises2} part3={part3} excercise3={exercises3}/>
+  <div>
+   <Header course={course}/>
+      <Content part1={part1} excercise1={exercises1} part2={part2} excercise2={exercises2} part3={part3} excercise3={exercises3}/>
       <Total part1={exercises1} part2={exercises2} part3={exercises3}/>
     </div>
+    
   )
 }
 
