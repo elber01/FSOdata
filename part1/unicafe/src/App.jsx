@@ -54,9 +54,13 @@ const Statistics = ({value, text}) => {
 // StatisticLine component
 const StatisticLine = ({text, value}) => {
   return (
-    <div>
-      {text}: {value}
-    </div>
+     
+      <tr>
+      <th style={{textAlign: "left"}}> {text}</th>
+      <td > {value}</td>
+      </tr>
+        
+   
   )
 }
 
@@ -70,15 +74,22 @@ const Statistics = ({text}) => {
   }
 else {
  message =    
-    <div> 
+      <> 
       <h2>{text}</h2>
-      <StatisticLine text= "Good"  value={good} />
-      <StatisticLine text= "Bad"  value={bad} />
-      <StatisticLine text= "Neutral"  value={neutral} />
-      <StatisticLine text= "All"  value={good + bad + neutral} />
-      <StatisticLine text= "Average"  value={(good + bad + neutral)/3} />
-      <StatisticLine text= "Positive"  value={ (good * 100) / (good + bad + neutral) + "%"} />
-    </div>
+      <table>
+        <tbody>
+        <StatisticLine text= "Good"  value={good} />
+        <StatisticLine text= "Bad"  value={bad} />
+        <StatisticLine text= "Neutral"  value={neutral} />
+        <StatisticLine text= "All"  value={good + bad + neutral} />
+        <StatisticLine text= "Average"  value={(good + bad + neutral)/3} />
+        <StatisticLine text= "Positive"  value={ (good * 100) / (good + bad + neutral) + "%"} />
+        </tbody>
+      </table>
+      
+      </>
+     
+  
   }
   
   return <div>{message}</div>
