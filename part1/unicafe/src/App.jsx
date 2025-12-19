@@ -52,8 +52,16 @@ const Statistics = ({value, text}) => {
 }*/
 
 const Statistics = ({text}) => {
-  return (    
-    <div> 
+
+  function SpecialComponent ({good, bad, neutral}) {
+  let message;
+
+  if ((good === 0 && bad === 0 && neutral === 0)) {
+    message = <p>No Feedback Given</p>
+  }
+else {
+ message =    
+    <spam> 
       <h2>{text}</h2>
       <p>Good: {good}</p>
       <p>Bad: {bad}</p>
@@ -61,9 +69,16 @@ const Statistics = ({text}) => {
       <p>All: {good + bad + neutral}</p>
       <p>Average: {(good + bad + neutral)}</p>
       <p>Positive: { (good * 100) / (good + bad + neutral) } %</p>
-    </div>
-  )
+    </spam>
+  }
+  
+  return <div>{message}</div>
+  }
+  
+  return <SpecialComponent good={good} bad={bad} neutral={neutral} />
 }
+
+
 
 return (
     <div>
@@ -71,7 +86,7 @@ return (
       <Button handleClick={() => setGood(good + 1)} text="good" />
       <Button handleClick={() => setBad(bad + 1)} text="bad" />
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
-   <Statistics text="Statistics" />
+      <Statistics text="Statistics" />
     
  </div>
 )
