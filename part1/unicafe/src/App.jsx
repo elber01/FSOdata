@@ -21,7 +21,7 @@ const Button=({handleClick, text}) => (
 
 
 
-
+/* until part 1.7
 //Statistics component
 const Header2 = ({state}) => {
   return (
@@ -41,26 +41,38 @@ const Result = ({value, text}) => {
 }
 
 //Statistics component
-const Statistics = ({value}) => {
+const Statistics = ({value, text}) => {
   return (
     <div>
-     All:{good + bad + neutral} <br/>
-     Average:{(good + bad + neutral)/3}<br/>
-     Positive:{ (good * 100) / (good + bad + neutral) }
+     All: {good + bad + neutral} <br/>
+     Average: {(good + bad + neutral)/3}<br/>
+     Positive: { (good * 100) / (good + bad + neutral) }
   </div>
   )
+}*/
+
+const Statistics = ({text}) => {
+  return (    
+    <div> 
+      <h2>{text}</h2>
+      <p>Good: {good}</p>
+      <p>Bad: {bad}</p>
+      <p>Neutral: {neutral}</p>
+      <p>All: {good + bad + neutral}</p>
+      <p>Average: {(good + bad + neutral)}</p>
+      <p>Positive: { (good * 100) / (good + bad + neutral) } %</p>
+    </div>
+  )
 }
+
 return (
     <div>
       <Header1 course="Give Feedback" />
       <Button handleClick={() => setGood(good + 1)} text="good" />
       <Button handleClick={() => setBad(bad + 1)} text="bad" />
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
-      <Header2 state=""/>
-      <Result value={good} text="good" />
-      <Result value={bad} text="bad" />
-      <Result value={neutral} text="neutral" /> 
-     <Statistics value=""/>
+   <Statistics text="Statistics" />
+    
  </div>
 )
 }
