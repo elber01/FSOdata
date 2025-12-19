@@ -7,7 +7,7 @@ function App() {
   const [neutral, setNeutral] = useState(0)
 
 //Header component
-  const Header = ({course}) => { 
+  const Header1 = ({course}) => { 
   return (    
       <h1>{course}</h1>
   )
@@ -23,7 +23,7 @@ const Button=({handleClick, text}) => (
 
 
 //Statistics component
-const Statistics = ({statistics}) => {
+const Header2 = ({state}) => {
   return (
     <div>
       <h2>Statistics</h2>  
@@ -40,21 +40,27 @@ const Result = ({value, text}) => {
   )
 }
 
-
-
+//Statistics component
+const Statistics = ({value}) => {
+  return (
+    <div>
+     All:{good + bad + neutral} <br/>
+     Average:{(good + bad + neutral)/3}<br/>
+     Positive:{ (good * 100) / (good + bad + neutral) }
+  </div>
+  )
+}
 return (
     <div>
-      <Header course="Give Feedback" />
+      <Header1 course="Give Feedback" />
       <Button handleClick={() => setGood(good + 1)} text="good" />
       <Button handleClick={() => setBad(bad + 1)} text="bad" />
       <Button handleClick={() => setNeutral(neutral + 1)} text="neutral" />
-      <Statistics statistics=""/>
+      <Header2 state=""/>
       <Result value={good} text="good" />
       <Result value={bad} text="bad" />
       <Result value={neutral} text="neutral" /> 
-      <Result value={good + bad + neutral} text="all" />
-      <Result value={(good - bad) / (good + bad + neutral)} text="average" />
-      <Result value={ (good * 100) / (good + bad + neutral) } text="positive" />
+     <Statistics value=""/>
  </div>
 )
 }
