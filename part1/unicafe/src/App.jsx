@@ -5,7 +5,7 @@ function App() {
   const [good, setGood] = useState(0)
   const [bad, setBad] = useState(0)
   const [neutral, setNeutral] = useState(0)
-  
+
 //Header component
   const Header = ({course}) => { 
   return (    
@@ -40,6 +40,8 @@ const Result = ({value, text}) => {
   )
 }
 
+
+
 return (
     <div>
       <Header course="Give Feedback" />
@@ -50,6 +52,9 @@ return (
       <Result value={good} text="good" />
       <Result value={bad} text="bad" />
       <Result value={neutral} text="neutral" /> 
+      <Result value={good + bad + neutral} text="all" />
+      <Result value={(good - bad) / (good + bad + neutral)} text="average" />
+      <Result value={ (good * 100) / (good + bad + neutral) } text="positive" />
  </div>
 )
 }
