@@ -51,6 +51,15 @@ const Statistics = ({value, text}) => {
   )
 }*/
 
+// StatisticLine component
+const StatisticLine = ({text, value}) => {
+  return (
+    <div>
+      {text}: {value}
+    </div>
+  )
+}
+
 const Statistics = ({text}) => {
 
   function SpecialComponent ({good, bad, neutral}) {
@@ -63,12 +72,12 @@ else {
  message =    
     <div> 
       <h2>{text}</h2>
-      <p>Good: {good}</p>
-      <p>Bad: {bad}</p>
-      <p>Neutral: {neutral}</p>
-      <p>All: {good + bad + neutral}</p>
-      <p>Average: {(good + bad + neutral)}</p>
-      <p>Positive: { (good * 100) / (good + bad + neutral) } %</p>
+      <StatisticLine text= "Good"  value={good} />
+      <StatisticLine text= "Bad"  value={bad} />
+      <StatisticLine text= "Neutral"  value={neutral} />
+      <StatisticLine text= "All"  value={good + bad + neutral} />
+      <StatisticLine text= "Average"  value={(good + bad + neutral)/3} />
+      <StatisticLine text= "Positive"  value={ (good * 100) / (good + bad + neutral) + "%"} />
     </div>
   }
   
