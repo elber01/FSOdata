@@ -61,7 +61,7 @@ const Statistics = ({text}) => {
   }
 else {
  message =    
-    <spam> 
+    <div> 
       <h2>{text}</h2>
       <p>Good: {good}</p>
       <p>Bad: {bad}</p>
@@ -69,7 +69,7 @@ else {
       <p>All: {good + bad + neutral}</p>
       <p>Average: {(good + bad + neutral)}</p>
       <p>Positive: { (good * 100) / (good + bad + neutral) } %</p>
-    </spam>
+    </div>
   }
   
   return <div>{message}</div>
