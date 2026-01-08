@@ -6,7 +6,7 @@ const App = (props) => {
   const [notes, setNotes] = useState(props.notes)
   const [newNote, setNewNote] =  useState('')
   const [showAll,setShowAll] = useState(true)
-
+//Adding a Note
   const addNote = (event) => {
     event.preventDefault ()
     const noteObject = {
@@ -18,14 +18,16 @@ const App = (props) => {
     setNewNote('')
     console.log ('button clicked', event.target)
   }
-
+//handling note change
 const handleNoteChange = (event) =>{
   console.log (event.target.value)
   setNewNote (event.target.value)
 }
+//notes to show
 const notesToShow = showAll
 ? notes
 : notes.filter(note => note.important === true)
+
   return (
     <div>
       <h1>Notes</h1>
