@@ -1,6 +1,9 @@
 
 import {Part, Content} from './components/Course.jsx'
 
+
+
+
 const App = () => {
 
 
@@ -61,6 +64,7 @@ const App = () => {
           <strong>
             Total of: {course.parts.reduce((s, p) => s + p.exercises, 0) +" exercises"}
           </strong>
+
         </div>
       ))}
     </div>
