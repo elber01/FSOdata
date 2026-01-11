@@ -78,7 +78,7 @@ const personsToShow = [...persons]
         </div>
       </form>
       <h2>Numbers</h2>
-      <div>{newNumber}</div>
+   
      <div>{personsToShow.map(person => <li key={person.name}>{person.name} {person.number}</li>)}</div>
     
     </div>
