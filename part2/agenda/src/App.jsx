@@ -1,10 +1,21 @@
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const App = () => {
 
   /// List of app hooks
-  const [persons, setPersons] = useState([
+  const [persons, setPersons] = useState([])
+    
+  useEffect(() => {
+     // console.log('effect')
+      axios.get('http://localhost:3001/persons').then((response) => {
+        //console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+    }, [])
+    console.log('render', persons.length, 'persons')
+  /* useState([
     { name: 'Arto Hellas', 
       number: '040-123456'
     },
@@ -12,11 +23,12 @@ const App = () => {
     { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   
-  ]) 
+  ])*/ 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')    
   const [filter, setFilter] = useState('')
 
+  
 ///Handleres for input changes
   //Handle name change
   const handleNameChange = (event) => {
