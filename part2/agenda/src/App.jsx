@@ -1,6 +1,34 @@
+//Component rendering
+const Filter = ({filter, handleFilterChange}) => (
+  <div>
+    Filter shown with <input value={filter} onChange={handleFilterChange}/>
+  </div>
+)
+const Personform = ({addPerson, newName, handleNameChange, newNumber, handleNumberChange}) => (
+  <form onSubmit={addPerson}>
+    <div>
+      name: <input value={newName} onChange={handleNameChange}/>
+   </div>
+    <div>
+      number: <input  value= {newNumber} onChange={handleNumberChange}/>
+    </div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>
+)
 
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+
+
+const Persons = ({personsToShow}) => (
+  <div>
+    {personsToShow.map(person => 
+      <li key={person.id}>{person.name} {person.number}</li>
+    )}
+  </div>
+)
 
 const App = () => {
 
@@ -40,7 +68,7 @@ const App = () => {
   }
  //Filter shown with input value
 const handleFilterChange = (event) => {
-  const valueFilter = setFilter (event.target.value)
+   setFilter (event.target.value)
 }
 
  
@@ -56,9 +84,12 @@ const handleFilterChange = (event) => {
       number: newNumber
     }
     //Update the list of persons to show
-    setPersons(persons.concat(personObject))
-    setNewName('')
-  
+
+    axios.post('http://localhost:3001/persons', personObject).then(response => {
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+    })
   }
 
 //Filter and sort persons to show
@@ -71,33 +102,7 @@ const personsToShow = [...persons]
 )
 
 
-//Component rendering
-const Filter = ({filter, handleFilterChange}) => (
-  <div>
-    Filter shown with <input value={filter} onChange={handleFilterChange}/>
-  </div>
-)
-const Personform = ({addPerson, newName, handleNameChange, newNumber, handleNumberChange}) => (
-  <form onSubmit={addPerson}>
-    <div>
-      name: <input value={newName} onChange={handleNameChange}/>
-   </div>
-    <div>
-      number: <input  value= {newNumber} onChange={handleNumberChange}/>
-    </div>
-    <div>
-      <button type="submit">add</button>
-    </div>
-  </form>
-)
 
-const Persons = ({personsToShow}) => (
-  <div>
-    {personsToShow.map(person => 
-      <li key={person.name}>{person.name} {person.number}</li>
-    )}
-  </div>
-)
 
   return (
     <div>

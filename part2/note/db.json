@@ -1,23 +1,73 @@
 {
   "notes": [
     {
-      "id": 1,
-      "content": "HTML is easy",
-      "important": true
-    },
-    {
-      "id": 2,
-      "content": "Browser can execute only JavaScript",
+      "id": "1",
+      "content": "rango",
       "important": false
     },
     {
-      "id": 3,
+      "id": "2",
+      "content": "manko",
+      "important": false
+    },
+    {
+      "id": "3",
       "content": "GET and POST are the most important methods of HTTP protocol",
+      "important": false
+    },
+    {
+      "id": "4",
+      "content": "Gato lobo",
+      "important": false
+    },
+    {
+      "id": "5",
+      "content": "mango craxy",
+      "important": false
+    },
+    {
+      "id": "6",
+      "content": "prueba",
+      "important": false
+    },
+    {
+      "id": "7",
+      "content": "Otro test",
+      "important": false
+    },
+    {
+      "id": "1",
+      "content": "Mangl",
+      "important": false
+    },
+    {
+      "id": "2",
+      "content": "Bankuco",
       "important": true
     },
     {
-      "id": 4,
-      "content": "Gato lobo", 
+      "id": "1",
+      "content": "renco",
+      "important": false
+    },
+    {
+      "id": "1",
+      "content": "rango",
+      "important": true
+    },
+    {
+      "id": "2",
+      "content": "manko",
+      "important": true
+    },
+    {
+      "id": "3",
+      "content": "shungo",
+      "important": false
+    },
+    {
+      "id": "1",
+      "content": "test",
       "important": true
     }
   ]
