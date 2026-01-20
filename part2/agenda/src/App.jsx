@@ -1,3 +1,7 @@
+import { useState, useEffect } from 'react'
+import personService from './persons'    
+import axios from 'axios'
+
 //Component rendering
 const Filter = ({filter, handleFilterChange}) => (
   <div>
@@ -18,15 +22,18 @@ const Personform = ({addPerson, newName, handleNameChange, newNumber, handleNumb
   </form>
 )
 
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-
-
 const Persons = ({personsToShow}) => (
   <div>
-    {personsToShow.map(person => 
-      <li key={person.id}>{person.name} {person.number}</li>
-    )}
+    {personsToShow.map(person => {
+      // Verificación de seguridad: si no hay persona o nombre, no renderiza nada
+      if (!person || !person.name) return null;
+
+      return (
+        <li key={person.id}>
+          {person.name} {person.number}
+        </li>
+      );
+    })}
   </div>
 )
 
@@ -37,12 +44,12 @@ const App = () => {
     
   useEffect(() => {
      // console.log('effect')
-      axios.get('http://localhost:3001/persons').then((response) => {
-        //console.log('promise fulfilled')
-        setPersons(response.data)
+      personService.getAll().then(initialPersons => {
+        setPersons(initialPersons)
       })
     }, [])
-    console.log('render', persons.length, 'persons')
+
+//    console.log('render', persons.length, 'persons')
   /* useState([
     { name: 'Arto Hellas', 
       number: '040-123456'
@@ -85,17 +92,17 @@ const handleFilterChange = (event) => {
     }
     //Update the list of persons to show
 
-    axios.post('http://localhost:3001/persons', personObject).then(response => {
-      setPersons(persons.concat(response.data))
+    personService.create(personObject).then(response => {
+      setPersons(persons.concat(response))
       setNewName('')
       setNewNumber('')
     })
   }
 
 //Filter and sort persons to show
-const personsToShow = [...persons] 
+const personsToShow = persons 
 .filter(person => 
-  person.name.toLowerCase().includes(filter.toLowerCase())
+  person.name && person.name.toLowerCase().includes(filter.toLowerCase())
 )
 .sort((a, b) => 
   a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
