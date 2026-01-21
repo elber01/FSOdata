@@ -1,16 +1,6 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": "1"
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": "2"
-    },
-    {
       "name": "Dan Abramov",
       "number": "12-43-234345",
       "id": "3"
@@ -21,14 +11,9 @@
       "id": "4"
     },
     {
-      "id": "cae8",
-      "name": "mango bajito",
-      "number": "568568"
-    },
-    {
-      "id": "c8b0",
-      "name": "rulo raro",
-      "number": "645454"
+      "id": "f692",
+      "name": "harto hellas",
+      "number": "1545747"
     }
   ]
 }

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import personService from './persons'    
-import axios from 'axios'
 
-//Component rendering
+
+//Components rendering
 const Filter = ({filter, handleFilterChange}) => (
   <div>
     Filter shown with <input value={filter} onChange={handleFilterChange}/>
@@ -25,12 +25,20 @@ const Personform = ({addPerson, newName, handleNameChange, newNumber, handleNumb
 const Persons = ({personsToShow}) => (
   <div>
     {personsToShow.map(person => {
-      // Verificación de seguridad: si no hay persona o nombre, no renderiza nada
+      //Security check
       if (!person || !person.name) return null;
 
       return (
         <li key={person.id}>
           {person.name} {person.number}
+         <button onClick={() => {
+            if (window.confirm(`Delete ${person.name}?`)) {
+              personService.deletePerson(person.id,person.name)
+              .then(() => {
+                window.location.reload();
+              })
+            }
+          }}>delete</button>
         </li>
       );
     })}
@@ -41,30 +49,19 @@ const App = () => {
 
   /// List of app hooks
   const [persons, setPersons] = useState([])
-    
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')    
+  const [filter, setFilter] = useState('')
+  
+  //Fetch data from server
   useEffect(() => {
-     // console.log('effect')
-      personService.getAll().then(initialPersons => {
+        personService.getAll().then(initialPersons => {
         setPersons(initialPersons)
       })
     }, [])
 
-//    console.log('render', persons.length, 'persons')
-  /* useState([
-    { name: 'Arto Hellas', 
-      number: '040-123456'
-    },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  
-  ])*/ 
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')    
-  const [filter, setFilter] = useState('')
+///Handlers for input changes
 
-  
-///Handleres for input changes
   //Handle name change
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -78,8 +75,7 @@ const handleFilterChange = (event) => {
    setFilter (event.target.value)
 }
 
- 
-// Validate and add a new name and numer
+// Validate and add a new name and number
   const addPerson = (event) => {
     event.preventDefault()
   if (persons.some(p => p.name === newName)) {
@@ -90,8 +86,8 @@ const handleFilterChange = (event) => {
       name: newName,
       number: newNumber
     }
-    //Update the list of persons to show
 
+    //Update the list of persons to show
     personService.create(personObject).then(response => {
       setPersons(persons.concat(response))
       setNewName('')
@@ -107,8 +103,6 @@ const personsToShow = persons
 .sort((a, b) => 
   a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
 )
-
-
 
 
   return (
