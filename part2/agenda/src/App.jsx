@@ -79,8 +79,28 @@ const handleFilterChange = (event) => {
   const addPerson = (event) => {
     event.preventDefault()
   if (persons.some(p => p.name === newName)) {
-     alert(`${newName} name already exist on the agenda`)
-      return
+    let choose = confirm(`${newName} name already exist on the agenda, replace the old number with a new one?`)
+    if (choose) {
+      //look for the person to update
+      const personToUpdate = persons.find(p => p.name === newName)
+      //create the updated person object
+      const updatedPerson = { ...personToUpdate, number: newNumber }
+      //send the update request
+      personService
+        .updatePerson(personToUpdate.id, updatedPerson)
+        .then(returnedPerson => {
+          //update the state with the returned person
+          setPersons(persons.map(p => p.id !== personToUpdate.id ? p : returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
+        .catch(error => {
+          alert(`Information of ${newName} has already been removed from server`)
+          setPersons(persons.filter(p => p.id !== personToUpdate.id))
+        })
+     
+    }
+     return
     }
     const personObject = {
       name: newName,
