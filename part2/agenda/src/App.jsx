@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import personService from './persons'    
+import './index.css'
 
 
 //Components rendering
@@ -45,6 +46,18 @@ const Persons = ({personsToShow}) => (
   </div>
 )
 
+const Notification = ({ message, type}) => {
+  if (message === null) return null
+
+//define var for notification class
+ const notificationClass = `${type}`
+  return (
+    <div className={notificationClass}>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
 
   /// List of app hooks
@@ -52,7 +65,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')    
   const [filter, setFilter] = useState('')
-  
+  const [notificationType, setNotificationType] = useState('success')
   //Fetch data from server
   useEffect(() => {
         personService.getAll().then(initialPersons => {
@@ -75,8 +88,13 @@ const handleFilterChange = (event) => {
    setFilter (event.target.value)
 }
 
+
+// Notification message state
+const [notificationMessage, setNotificationMessage] = useState(null)
+
+
 // Validate and add a new name and number
-  const addPerson = (event) => {
+ const addPerson = (event) => {
     event.preventDefault()
   if (persons.some(p => p.name === newName)) {
     let choose = confirm(`${newName} name already exist on the agenda, replace the old number with a new one?`)
@@ -93,10 +111,23 @@ const handleFilterChange = (event) => {
           setPersons(persons.map(p => p.id !== personToUpdate.id ? p : returnedPerson))
           setNewName('')
           setNewNumber('')
+          //show notification message
+          setNotificationMessage(`Updated ${newName}'s number`)
+          setNotificationType ('notify')
+          setTimeout(() => {
+            setNotificationMessage(null)
+          
+          }, 5000)
         })
         .catch(error => {
           alert(`Information of ${newName} has already been removed from server`)
           setPersons(persons.filter(p => p.id !== personToUpdate.id))
+          setNotificationMessage(`information of ${newName} has already been removed from server`)
+          setNotificationType ('error')
+          setTimeout(() => {
+            setNotificationMessage(null)
+            
+          }, 5000)
         })
      
     }
@@ -110,8 +141,16 @@ const handleFilterChange = (event) => {
     //Update the list of persons to show
     personService.create(personObject).then(response => {
       setPersons(persons.concat(response))
+    
       setNewName('')
       setNewNumber('')
+      //show notification message
+      setNotificationMessage(`Added ${newName}`)
+      setNotificationType('notify')
+      setTimeout(() => {
+        setNotificationMessage(null)
+        
+      }, 5000)
     })
   }
 
@@ -125,10 +164,11 @@ const personsToShow = persons
 )
 
 
+
   return (
     <div>
-      <h2>Phonebook</h2>
-     
+      <h1>Phonebook</h1>
+     <Notification message={notificationMessage} type={notificationType}/>
      <Filter filter={filter} handleFilterChange={handleFilterChange} />
       
         <h3>Add a new</h3>

@@ -27,5 +27,6 @@ const updatePerson= (id, newObject) => {
   return request.then(response => response.data)
 }
 
+   
 // Export functions
 export default { getAll, create, deletePerson, updatePerson }
