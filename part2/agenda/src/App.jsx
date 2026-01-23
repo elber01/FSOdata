@@ -47,7 +47,9 @@ const Persons = ({personsToShow}) => (
 )
 
 const Notification = ({ message, type}) => {
-  if (message === null) return null
+  if (message === null) {
+    return null
+  }
 
 //define var for notification class
  const notificationClass = `${type}`
@@ -66,6 +68,10 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')    
   const [filter, setFilter] = useState('')
   const [notificationType, setNotificationType] = useState('success')
+// Notification message state
+const [notificationMessage, setNotificationMessage] = useState(null)
+
+
   //Fetch data from server
   useEffect(() => {
         personService.getAll().then(initialPersons => {
@@ -88,11 +94,6 @@ const handleFilterChange = (event) => {
    setFilter (event.target.value)
 }
 
-
-// Notification message state
-const [notificationMessage, setNotificationMessage] = useState(null)
-
-
 // Validate and add a new name and number
  const addPerson = (event) => {
     event.preventDefault()
@@ -113,6 +114,7 @@ const [notificationMessage, setNotificationMessage] = useState(null)
           setNewNumber('')
           //show notification message
           setNotificationMessage(`Updated ${newName}'s number`)
+           // show notify notification 
           setNotificationType ('notify')
           setTimeout(() => {
             setNotificationMessage(null)
@@ -123,6 +125,7 @@ const [notificationMessage, setNotificationMessage] = useState(null)
           alert(`Information of ${newName} has already been removed from server`)
           setPersons(persons.filter(p => p.id !== personToUpdate.id))
           setNotificationMessage(`information of ${newName} has already been removed from server`)
+          // show error notification
           setNotificationType ('error')
           setTimeout(() => {
             setNotificationMessage(null)
@@ -141,15 +144,13 @@ const [notificationMessage, setNotificationMessage] = useState(null)
     //Update the list of persons to show
     personService.create(personObject).then(response => {
       setPersons(persons.concat(response))
-    
       setNewName('')
       setNewNumber('')
-      //show notification message
+      //show notification of added person 
       setNotificationMessage(`Added ${newName}`)
       setNotificationType('notify')
       setTimeout(() => {
-        setNotificationMessage(null)
-        
+        setNotificationMessage(null)        
       }, 5000)
     })
   }
