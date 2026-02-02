@@ -4,9 +4,16 @@
   "description": "learning to work with node.js",
   "main": "index.js",
   "scripts": {
-   "start": "node index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Edwin Hamilton",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
 }
