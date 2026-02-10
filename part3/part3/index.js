@@ -1,68 +1,84 @@
-const express = require('express');
-const app = express();
-const port = 3001;
-const morgan = require('morgan');
+const express = require('express')
+const app = express()
 
+// ✅ IMPORTANTE: Esto debe ir ANTES de las rutas
+app.use(express.json())
+app.use(express.static('dist'))
 
 let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    important: true
-  },
-  {
-    id: 2,
-    content: "Browser can execute only JavaScript",
-    important: false
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    important: true
-  }
+  { id: 1, content: "HTML is easy", important: true },
+  { id: 2, content: "Browser can execute only JavaScript", important: false },
+  { id: 3, content: "GET and POST are important", important: true }
 ]
 
+// Función para generar ID
+const generateId = () => {
+  const maxId = notes.length > 0
+    ? Math.max(...notes.map(n => n.id))
+    : 0
+  return maxId + 1
+}
+
+// GET todas las notas
+app.get('/api/notes', (request, response) => {
+  response.json(notes)
+})
+
+// GET una nota por ID
 app.get('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id)
-  const note = notes.find(note => {
-    if (note) {
+  const note = notes.find(note => note.id === id)
+  
+  if (note) {
     response.json(note)
   } else {
     response.status(404).end()
   }
-    return note.id === id
-  })
-
 })
 
-app.use(express.json())
-
-app.listen(port, () => {
-  console.log(`App escuchando en http://localhost:${port}`);
-})
-
+// ✅ POST - Crear nueva nota (ESTO TE FALTA)
 app.post('/api/notes', (request, response) => {
-  const note = request.body
-  console.log(note)
+  const body = request.body
+
+  if (!body.content) {
+    return response.status(400).json({ 
+      error: 'content missing' 
+    })
+  }
+
+  const note = {
+    content: body.content,
+    important: body.important || false,
+    id: generateId()
+  }
+
+  notes = notes.concat(note)
   response.json(note)
 })
 
-const requestLogger = (request, response, next) => {
-  console.log('Method:', request.method)
-  console.log('Path:  ', request.path)
-  console.log('Body:  ', request.body)
-  console.log('---')
-  next()
-}
-app.use(requestLogger)
+// PUT - Actualizar nota
+app.put('/api/notes/:id', (request, response) => {
+  const id = Number(request.params.id)
+  const body = request.body
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
+  const note = {
+    content: body.content,
+    important: body.important,
+    id: id
+  }
 
-app.use(unknownEndpoint)
+  notes = notes.map(n => n.id !== id ? n : note)
+  response.json(note)
+})
 
+// DELETE - Eliminar nota
+app.delete('/api/notes/:id', (request, response) => {
+  const id = Number(request.params.id)
+  notes = notes.filter(note => note.id !== id)
+  response.status(204).end()
+})
 
 const PORT = 3000
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`)
+})

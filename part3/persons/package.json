@@ -4,7 +4,10 @@
     "description": "Persons data for FSO course",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "dev": "vite",
+        "test" : "echo \"Error: no build step defined\" && exit 1",
+         "build": "vite build"
     },
     "author": "hamilton",
     "license": "ISC",

@@ -1,6 +1,10 @@
+const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const app = express()       
+const cors = require('cors')
+const notes = require('./src/components/persons')
+
 
 
 app.use(express.json())
@@ -10,6 +14,8 @@ morgan.token('body', (req,res) =>{
 })
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+
+app.use(cors())
 
 let persons =
 [
@@ -34,6 +40,9 @@ let persons =
       "number": "39-23-6423122"
     }
 ]
+
+// Serve static files from the 'dist' directory
+app.use(express.static(path.join(__dirname, 'dist')))
 // Middleware to parse JSON bodies
 app.get('/info', (req, res) => {
   const info = `<p>Phonebook has info for 2 people</p> 
@@ -41,10 +50,17 @@ app.get('/info', (req, res) => {
   <p>${new Date().toString()}</p>`
     res.send(info)
 })
+
 // Get all persons
 app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
+
+app.get('/api/notes/', (req, res) => {
+  res.json(notes)
+})
+
+
 // Get a single person
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
@@ -96,6 +112,10 @@ app.use((err, req, res, next) => {
    res.status(400).send({ error: 'number missing' })
    
 })
+
+const distPath = path.join(__dirname, 'dist')
+console.log('Buscando archivos estáticos en:', distPath)
+app.use(express.static(distPath))
 
 const PORT= 3001
 app.listen(PORT, () => {
