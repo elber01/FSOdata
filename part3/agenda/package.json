@@ -5,17 +5,17 @@
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
-        "dev": "vite",
-        "test" : "echo \"Error: no build step defined\" && exit 1",
-         "build": "vite build"
+        "test": "echo \"Error: no build step defined\" && exit 1"
     },
     "author": "hamilton",
     "license": "ISC",
     "dependencies": {
+        "cors": "^2.8.6",
         "express": "^4.18.2",
         "morgan": "^1.10.1"
     },
     "devDependencies": {
+        "@flydotio/dockerfile": "^0.7.10",
         "nodemon": "^2.0.20"
     }
 }

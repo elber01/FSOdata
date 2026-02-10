@@ -112,12 +112,12 @@ app.use((err, req, res, next) => {
    res.status(400).send({ error: 'number missing' })
    
 })
-
+//Testomg connection
 const distPath = path.join(__dirname, 'dist')
 console.log('Buscando archivos estáticos en:', distPath)
 app.use(express.static(distPath))
 
-const PORT= 3001
-app.listen(PORT, () => {
+const PORT= 3000
+app.listen(PORT,'0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`)
 })
