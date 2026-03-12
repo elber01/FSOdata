@@ -81,17 +81,30 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post ('/api/persons', (req, res) => {
   const body = req.body
+ // Validate that name and number are provided
   if (!body.name || !body.number) {
     return res.status(400).json({
       error: 'name or number missing'
     })
   }
-const person = {
+  // Create instance of Person model
+const person = new Person({
     id: Math.floor(Math.random() * 10000),
     name: body.name,
-    number: body.number,} 
-  persons = persons.concat(person)
-  res.json(person)
+    number: body.number
+})  
+//  persons = persons.concat(person)
+ // res.json(person)
+//})
+// Create a new person on mongoDB
+person.save()
+.then(savedPerson => {
+  res.json(savedPerson)
+})
+.catch(error => {
+  console.log(error)
+  res.status(500).end()
+ })
 })
 
 // Generate a random ID
