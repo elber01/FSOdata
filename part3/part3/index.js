@@ -4,6 +4,7 @@ const app = express()
 const Note = require('./models/note')
 
 // Borramos el require de Note porque lo defines abajo
+app.use(express.static('build')) // Servir archivos estáticos desde la carpeta 'build'
 app.use(express.json())
 app.use(express.static('dist'))
 
@@ -23,11 +24,10 @@ app.get('/api/notes/:id', (request, response) => {
         response.status(404).end()
       }
     })
-    .catch(error => {
-      console.log(error)
-      response.status(400).send({ error: 'malformatted id' })
+    .catch(error => next(error))// Pass the error to the error handling middleware
+      //response.status(400).send({ error: 'malformatted id' })
     })
-})
+//})
 // Update note 
 app.put('/api/notes/:id', (request, response, next) => {
   const body = request.body
@@ -60,6 +60,25 @@ app.post('/api/notes', (request, response) => {
     response.json(savedNote)
   })
 })
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+// este debe ser el último endpoint cargado, ¡también todas las rutas deben ser registrada antes que esto!
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
+
+// este debe ser el último middleware cargado, ¡también todas las rutas deben ser registrada antes que esto!
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {

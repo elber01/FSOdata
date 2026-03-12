@@ -1,9 +1,10 @@
+require('dotenv').config()
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const app = express()       
 const cors = require('cors')
-
+const Person = require('./models/person')
 
 
 
@@ -56,9 +57,7 @@ app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
-app.get('/api/notes/', (req, res) => {
-  res.json(notes)
-})
+
 
 
 // Get a single person
@@ -117,7 +116,7 @@ const distPath = path.join(__dirname, 'dist')
 console.log('Buscando archivos estáticos en:', distPath)
 app.use(express.static(distPath))
 
-const PORT= 3000
-app.listen(PORT,'0.0.0.0', () => {
+const PORT= process.env.PORT 
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

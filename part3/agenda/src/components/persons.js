@@ -1,4 +1,6 @@
-const notes = [
+
+
+const persons = [
   { 
       "id": 1,
       "name": "Arto Hellas", 
@@ -21,6 +23,4 @@ const notes = [
     }
 ]
 
-return notes 
-
-module.exports = notes
+return persons 
