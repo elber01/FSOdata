@@ -24,9 +24,12 @@ app.get('/api/notes/:id', (request, response) => {
         response.status(404).end()
       }
     })
-    .catch(error => next(error))// Pass the error to the error handling middleware
+    .catch(error => {
+      console.log(error) 
+      response.status(500).end() // Pass the error to the error handling middleware
       //response.status(400).send({ error: 'malformatted id' })
     })
+  })
 //})
 // Update note 
 app.put('/api/notes/:id', (request, response, next) => {
@@ -45,6 +48,17 @@ app.put('/api/notes/:id', (request, response, next) => {
 })
 
 // Delete note
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndRemove(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
+})
+
+
+
+
 app.post('/api/notes', (request, response) => {
   const body = request.body
   if (!body.content) {

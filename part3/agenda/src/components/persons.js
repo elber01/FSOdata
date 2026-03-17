@@ -1,26 +1,29 @@
+import axios from 'axios'
+
+const baseUrl = '/api/persons' 
 
 
-const persons = [
-  { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": 3,
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    }
-]
 
-return persons 
+// Managing the API calls to the backend
+const getAll = () => {
+  const request = axios.get(baseUrl)
+  return request.then(response => response.data)
+}
+// Create a new person in the backend
+const create = (newObject) => {
+  const request = axios.post(baseUrl, newObject)
+  return request.then(response => response.data)
+}
+
+// Update an existing person in the backend
+const updatePerson = (id, newObject) => {
+  const request = axios.put(`${baseUrl}/${id}`, newObject)
+  return request.then(response => response.data)
+}
+// Delete a person from the backend
+const deletePerson = (id) => {
+  return axios.delete(`${baseUrl}/${id}`)
+}
+
+
+export default { getAll, create, updatePerson, deletePerson }
