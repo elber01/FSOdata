@@ -32,11 +32,11 @@ app.get('/api/persons/:id', (req, res, next) => {
 
 app.post('/api/persons', (req, res, next) => {
   const { name, number } = req.body
-
-  if (!name || !number) {
+// I comment this part to allaw the validation to be handled by Mongoose and the error to be handled by the error handling middleware
+  /*if (!name || !number) {
     return res.status(400).json({ error: 'name or number missing' })
   }
-
+*/
   const person = new Person({ name, number })
 
   person.save()
@@ -68,9 +68,12 @@ app.delete('/api/persons/:id', (req, res, next) => {
 // Error handling middleware
 const errorHandler = (error, req, res, next) => {
   console.error(error.message)
+
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {
+  } 
+  
+  else if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message })
   }
   next(error)

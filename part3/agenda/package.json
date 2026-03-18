@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "keywords": [],
-  "author": "",
+  "author": "Edwin Hamilton",
   "license": "ISC",
   "dependencies": {
     "@vitejs/plugin-react": "^6.0.1",

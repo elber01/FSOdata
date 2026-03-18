@@ -15,7 +15,12 @@ mongoose.set('strictQuery',false)
 mongoose.connect(url)
 
 const noteSchema = new mongoose.Schema({
-  content: String,
+  
+  content: {
+  type: String,
+  minLength: 5,
+  required: true,
+  },
   important: Boolean,
 })
 
@@ -28,7 +33,7 @@ const note = new Note({
 
 note.save().then(result => {
   console.log('note saved!')
-  mongoose.connection.close()
+ 
 })
 
 Note.find({}).then(result => {
