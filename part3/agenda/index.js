@@ -4,11 +4,24 @@ const morgan = require('morgan')
 const cors = require('cors')
 const Person = require('./models/person')
 const path = require('path')  
+const mongoose = require('mongoose')
 const app = express()
 
 app.use(cors())
-app.use(express.static(path.join(__dirname, 'dist')))
+app.use(express.static( 'dist'))
 app.use(express.json())
+
+// Connect to MongoDB
+const url = process.env.MONGODB_URI
+console.log('connecting to', url? url : 'No MONGODB_URI detected. Please set the MONGODB_URI environment variable.')
+mongoose.connect(url)
+.then(() => {
+  console.log('connected to MongoDB')
+})
+.catch((error) => {
+  console.log('error connecting to MongoDB:', error.message)
+})
+
 
 // Config morgan
 morgan.token('body', (req) => JSON.stringify(req.body))
@@ -16,10 +29,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 
 // RUTES
 
-// This route is for the frontend to get the index.html file, it should be before the API routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
-})
+
 
 app.get('/api/persons', (req, res) => {
   Person.find({}).then(persons => {
@@ -69,7 +79,10 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .then(() => res.status(204).end())
     .catch(error => next(error))
 })
-
+// This route is for the frontend to get the index.html file, it should be before the API routes
+app.get(/^(?!\/api).+$/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+})
 
 // Error handling middleware
 const errorHandler = (error, req, res, next) => {
