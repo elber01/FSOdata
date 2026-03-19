@@ -3,7 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 const Person = require('./models/person')
-const path = require('path')  
+const path = require('path')
 const mongoose = require('mongoose')
 const app = express()
 
@@ -64,8 +64,8 @@ app.put('/api/persons/:id', (req, res, next) => {
   const { name, number } = req.body
 
   Person.findByIdAndUpdate(
-    req.params.id, 
-    { name, number }, 
+    req.params.id,
+    { name, number },
     { new: true, runValidators: true, context: 'query' }
   )
     .then(updatedPerson => res.json(updatedPerson))
@@ -90,8 +90,8 @@ const errorHandler = (error, req, res, next) => {
 
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
-  } 
-  
+  }
+
   else if (error.name === 'ValidationError') {
     return res.status(400).json({ error: error.message })
   }

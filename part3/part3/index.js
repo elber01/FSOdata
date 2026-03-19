@@ -25,13 +25,13 @@ app.get('/api/notes/:id', (request, response) => {
       }
     })
     .catch(error => {
-      console.log(error) 
+      console.log(error)
       response.status(500).end() // Pass the error to the error handling middleware
       //response.status(400).send({ error: 'malformatted id' })
     })
   })
 //})
-// Update note 
+// Update note
 app.put('/api/notes/:id', (request, response, next) => {
   const body = request.body
 
@@ -49,7 +49,7 @@ app.put('/api/notes/:id', (request, response, next) => {
 
 // Delete note
 app.delete('/api/notes/:id', (request, response, next) => {
-  const {content, important} = request.body
+//  const { content, important } = request.body
   Note.findByIdAndRemove(request.params.id)
     .then(() => {
       response.status(204).end()
@@ -62,11 +62,11 @@ app.delete('/api/notes/:id', (request, response, next) => {
 
 app.post('/api/notes', (request, response, next) => {
   const body = request.body
-  
+
   const note = new Note({
     content: body.content,
     important: body.important || false,
-  })  
+  })
 
   note.save()
   .then(savedNote => {
@@ -88,7 +88,7 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).send({ error: 'malformatted id' })
   }else if (error.name === 'ValidationError') {
     return response.status(400).json({ error: error.message })
-  } 
+  }
 
   next(error)
 }
