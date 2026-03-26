@@ -8,31 +8,28 @@ if (process.argv.length<3) {
 const password = process.argv[2]
 
 const url =
-  `mongodb+srv://hamiltonedwin_db_user:${password}@cluster0.1rnecup.mongodb.net/Noteapp?appName=Cluster0`
+  `mongodb+srv://hamiltonedwin_db_user:${password}@cluster0.1rnecup.mongodb.net/Blogapp?appName=Cluster0`
 
 mongoose.set('strictQuery',false)
 
 mongoose.connect(url)
 
-const noteSchema = new mongoose.Schema({
-
-  content: {
-  type: String,
-  minLength: 5,
-  required: true,
-  },
-  important: Boolean,
+const blogSchema = new mongoose.Schema({
+  title: String,
+  author: String,
+  url: String,
+  likes: Number
 })
 
-const Blog = mongoose.model('Blog', noteSchema)
+const Blog = mongoose.model('Blog', blogSchema)
 
 const blog = new Blog({
-  content: 'HTML is easy',
+  content: 'testing.com',
   important: true,
 })
 
 blog.save().then(() => {
-  console.log('note saved!')
+  console.log('Blog saved!')
 
 })
 
@@ -43,6 +40,6 @@ Blog.find({}).then(result => {
   mongoose.connection.close()
 })
 
-Blog.find({ important: true }).then(() => {
+Blog.find({ likes: { $gt: 0 } }).then(() => {
   // ...
 })

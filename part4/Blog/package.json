@@ -1,5 +1,5 @@
 {
-  "name": "blog-app",
+  "name": "notebackend",
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "lint": "eslint ."
   },
-  "author": "Edwin Hamilton",
+  "author": "Matti Luukkainen",
   "license": "MIT",
   "description": "",
   "dependencies": {

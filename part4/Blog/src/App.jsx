@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Note, Notification, Footer } from './components/notes' 
+import { Blog, Notification, Footer } from './components/blogs' 
 import blogService from './services/blogs'
 import './index.css'
 
@@ -26,8 +26,10 @@ const App = () => {
   const addBlog = (event) => {
     event.preventDefault()
     const blogObject = {
-      content: newBlog,
-      important: Math.random() > 0.5,
+      title: newBlog,
+      author: 'Edwin Hamilton',
+      url: 'http://example.com',
+      likes: 0 // Puedes modificar esto para permitir ingresar el autor
       // El ID lo crea MongoDB automáticamente, no lo pongas aquí
     }
 
@@ -37,24 +39,29 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog))
         setNewBlog('')
       })
-  }
+        .catch(error => { 
+          setErrorMessage('Failed to add blog: ' + error.message)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
+  }) }
 
   const handleBlogChange = (event) => {
     setNewBlog(event.target.value)
   }
 
-  const toggleImportanceOf = id => {
+  const toggleLikesOf = (id) => {
     const blog = blogs.find(b => b.id === id)
-    const changedBlog = { ...blog, important: !blog.important }
+    const changedBlog = { ...blog, likes: (blog.likes || 0) + 1 }
 
     blogService
       .update(id, changedBlog)
       .then(returnedBlog => {
-        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+        setBlogs(blogs.map(b => b.id !== id ? b : returnedBlog))
       })
       .catch(error => {
         setErrorMessage(
-          `the blog '${blog.content}' was already removed from server`
+          `the blog '${blog.title}' was already removed from server`
         )
         setTimeout(() => {
           setErrorMessage(null)
@@ -63,25 +70,25 @@ const App = () => {
       })
   }
 
-  const blogsToShow = showAll ? blogs : blogs.filter((blog) => blog.important)
+  const blogsToShow = showAll ? blogs : blogs.filter((blog) => blog.likes > 0)
 
   return (
     <div>
-      <h1>Blogs</h1>
+      <h1>Favorite Blogs</h1>
       <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all' }
+          show {showAll ? 'liked' : 'all' }
         </button>
       </div>      
       <ul>
-        {blogsToShow.map((blog, i) => 
-          <Note
-            key={blog.id || i} // Usa blog.id si existe
-            note={blog} 
-            toggleImportance={() => toggleImportanceOf(blog.id)}
+        {blogs.map(blog => (
+          <Blog
+            key={blog.id} // Usa blog.id si existe
+            blog={blog} 
+            toggleImportance={() =>toggleLikesOf(blog.id)}
           />
-        )}
+        ))}
       </ul>
       <form onSubmit={addBlog}>
         <input value={newBlog} onChange={handleBlogChange} />
