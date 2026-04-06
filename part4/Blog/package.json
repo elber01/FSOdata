@@ -6,9 +6,10 @@
     "start": "node index.js",
     "dev": "vite",
     "build": "vite build",
-    "test": "echo \"Error: no test specified\" && exit 1",
+   "test": "node --test",
     "preview": "vite preview",
     "lint": "eslint ."
+
   },
   "author": "Matti Luukkainen",
   "license": "MIT",
