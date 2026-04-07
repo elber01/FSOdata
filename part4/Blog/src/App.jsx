@@ -62,10 +62,16 @@ const App = () => {
     setNewUrl(event.target.value)
   }
 
-
+// Adding a function to toggle the likes of a blog post
   const toggleLikesOf = (id) => {
     const blog = blogs.find(b => b.id === id)
     const changedBlog = { ...blog, likes: (blog.likes || 0) + 1 }
+
+//
+const mostLikedBlog = blogs.length > 0 ? blogs.reduce((prev, current) => (prev.likes > current.likes) ? prev : current) 
+: null
+
+
 
     blogService
       .update(id, changedBlog)
@@ -93,9 +99,19 @@ const App = () => {
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'liked' : 'all' }
         </button>
+        <button onClick={() => {
+        const mostLiked = blogs.length > 0 
+        ? blogs.reduce((prev, current) => (prev.likes > current.likes) ? prev : current)
+        : null
+        alert ( mostLiked 
+          ? `This is the most liked blog: ${mostLiked.title} with ${mostLiked.likes} Likes` 
+          : 'No blogs available'
+        )}}>
+        show most liked
+      </button>
       </div>      
       <ul>
-        {blogs.map(blog => (
+        {blogsToShow.map(blog => (
           <Blog
             key={blog.id} 
             blog={blog} 

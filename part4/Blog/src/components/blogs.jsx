@@ -60,7 +60,7 @@ const Blog = ({ blog, toggleImportance }) => {
     <li>
       Name: {blog.title} Author: {blog.author} - URL: {blog.url} -  
       <strong>Likes: {blog.likes ||0}</strong>
-      <button onClick={toggleImportance}>Like</button>
+      <button onClick={toggleImportance}>Likes</button>
     </li>
   )
 }
@@ -73,6 +73,7 @@ const Notification = ({ message }) => {
     </div>
   )
 }
+
 
 const Footer = () => {
   const footerStyle = {
