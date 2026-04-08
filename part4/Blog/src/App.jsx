@@ -97,7 +97,7 @@ const mostLikedBlog = blogs.length > 0 ? blogs.reduce((prev, current) => (prev.l
       <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'liked' : 'all' }
+          Show {showAll ? 'Liked' : 'All' }
         </button>
         <button onClick={() => {
         const mostLiked = blogs.length > 0 
@@ -107,7 +107,7 @@ const mostLikedBlog = blogs.length > 0 ? blogs.reduce((prev, current) => (prev.l
           ? `This is the most liked blog: ${mostLiked.title} with ${mostLiked.likes} Likes` 
           : 'No blogs available'
         )}}>
-        show most liked
+        Show Favorite Blog
       </button>
       </div>      
       <ul>
@@ -123,7 +123,7 @@ const mostLikedBlog = blogs.length > 0 ? blogs.reduce((prev, current) => (prev.l
         Name: <input value={newBlog} type= "text" placeholder='Name' onChange={handleBlogChange} /><br />
         Author: <input value= {newAuthor} type="text" placeholder="Author" onChange={handleAuthorChange} /><br />
         URL: <input value = {newUrl} type="text" placeholder="URL" onChange={handleUrlChange} />
-        <button type="submit">save</button>
+        <button type="submit">Save</button>
       </form>
       <Footer />
     </div>
