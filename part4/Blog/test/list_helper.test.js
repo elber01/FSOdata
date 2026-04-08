@@ -87,8 +87,39 @@ describe('most blogs', () => {
    }
   ]
 
+
   test('finds the author with most blogs', () => {
     const result = listHelper.mostBlogs(blogs)
     assert.deepStrictEqual(result, { author: 'Test Author', blogs: 2 })
   })
+})
+describe('most likes', () => {
+  const blogs = [
+    {
+      _id: '5a422aa71b54a676234d17f8',
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      url: 'http://www.u.arizona.edu/~rubinson/copyright-violation.html',
+      likes: 5 },
+    {
+      _id: '5422aa71b54a676234d17f9',
+      title: 'Testing de test',
+      author: 'Test Author',
+      url: 'http://www.test2.html',
+      likes: 8
+    },
+    {
+      _id: '5422aa71b54a676234d17f10',
+      title: 'Blog 3',
+      author: 'Test Author',
+      url: 'http://www.test3.html',
+      likes: 10
+    }
+  ]
+
+  test('finds the author with most likes', () => {
+    const result = listHelper.mostLikes(blogs)
+    assert.deepStrictEqual(result, { author: 'Test Author', likes: 18 })
+  })
+
 })
